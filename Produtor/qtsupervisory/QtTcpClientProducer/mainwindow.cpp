@@ -27,8 +27,7 @@ MainWindow::MainWindow(QWidget *parent)
 #if QT_VERSION >= QT_VERSION_CHECK(5, 15, 0)
     connect(socket, &QTcpSocket::errorOccurred, this, &MainWindow::onErroSocket);
 #else
-    connect(socket, QOverload<QAbstractSocket::SocketError>::of(&QTcpSocket::error),
-            this, &MainWindow::onErroSocket);
+
 #endif
 
     connect(timerEnvio, &QTimer::timeout, this, &MainWindow::onEnviarDado);
@@ -49,7 +48,6 @@ void MainWindow::setupUi()
     QWidget *central = new QWidget(this);
     setCentralWidget(central);
 
-    // --- Grupo de configuração da conexão/dados ---
     QGroupBox *grupoConfig = new QGroupBox("Configuração", central);
     QFormLayout *formLayout = new QFormLayout;
 
@@ -75,7 +73,6 @@ void MainWindow::setupUi()
 
     grupoConfig->setLayout(formLayout);
 
-    // --- Botões de ação ---
     QHBoxLayout *layoutBotoes = new QHBoxLayout;
     btnConectar  = new QPushButton("Conectar", central);
     btnIniciar   = new QPushButton("Iniciar transmissão", central);
@@ -84,12 +81,10 @@ void MainWindow::setupUi()
     layoutBotoes->addWidget(btnIniciar);
     layoutBotoes->addWidget(btnFinalizar);
 
-    // --- Status e log ---
     labelStatus = new QLabel("Desconectado", central);
     textLog = new QTextEdit(central);
     textLog->setReadOnly(true);
 
-    // --- Layout principal ---
     QVBoxLayout *layoutPrincipal = new QVBoxLayout(central);
     layoutPrincipal->addWidget(grupoConfig);
     layoutPrincipal->addLayout(layoutBotoes);

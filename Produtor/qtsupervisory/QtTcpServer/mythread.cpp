@@ -11,7 +11,6 @@ MyThread::MyThread(int ID, QObject *parent, DataStorage* storage) :
 }
 
 void MyThread::run(){
-  // thread starts here
   str = QString("<i>") +
       QString().setNum(socketDescriptor) +
       " <font color=\"red\">Connected! starting thread</blue></i>";
@@ -28,7 +27,6 @@ void MyThread::run(){
   str = QString().setNum(socketDescriptor) + " client connected";
   emit message(str);
   peerAddress = socket->peerAddress();
-  //qDebug() << peerAddress.toString();
   exec();
 }
 
@@ -45,8 +43,6 @@ void MyThread::readyRead(){
   QStringList list;
 
   list = str.split(" ");
-  // parses the string list
-  //storage->addData(peerAddress,QDateTime::currentDateTime(), 23);
 
   cmd = list.at(0);
 
@@ -61,15 +57,11 @@ void MyThread::readyRead(){
 
   // lista as entradas de um dado host
   else if(cmd == "get"){
-    // recupera o argumento fornecido para get
-    // ex: get 127.0.0.1
     if(list.size() == 3){
       cmd = list.at(1);
       str = list.at(2);
       nsamples = str.toUInt();
-     // qDebug() << "pass 1";
       QHostAddress address(cmd);
-      // se o endereco for valido...
       if(!address.isNull()){
         // recupera entradas para um dado endereco
         entry = storage->getData(address, nsamples);
@@ -87,9 +79,6 @@ void MyThread::readyRead(){
 
   // insere dados de telemetria
   else if(cmd == "set"){
-    // sintaxe: set tempo_em_ms float_value
-    // O tempo deverá ser diferenca de hora para 1970-01-01T00:00:00.000
-    // ex: set 1496156112708 9.16666
     if(list.size() == 3){
       bool ok;
       cmd = list.at(1);

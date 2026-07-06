@@ -13,7 +13,7 @@
 #include <QtCharts/QDateTimeAxis>
 
 #if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
-QT_CHARTS_USE_NAMESPACE
+
 #endif
 
 class QLineEdit;
@@ -69,7 +69,6 @@ private:
     QString maquinaSelecionada;
     QVector<QPointF> amostras; // x = timestamp (ms desde epoch), y = valor
 
-    // --- Widgets ---
     QLineEdit   *editIp;
     QPushButton *btnConectar;
     QListWidget *listaMaquinas;

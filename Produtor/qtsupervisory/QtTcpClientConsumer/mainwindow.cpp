@@ -34,8 +34,6 @@ MainWindow::MainWindow(QWidget *parent)
 #if QT_VERSION >= QT_VERSION_CHECK(5, 15, 0)
     connect(socket, &QTcpSocket::errorOccurred, this, &MainWindow::onErroSocket);
 #else
-    connect(socket, QOverload<QAbstractSocket::SocketError>::of(&QTcpSocket::error),
-            this, &MainWindow::onErroSocket);
 #endif
 
     connect(timerSilencio, &QTimer::timeout, this, &MainWindow::onSilencioDetectado);
@@ -59,7 +57,6 @@ void MainWindow::setupUi()
     QWidget *central = new QWidget(this);
     setCentralWidget(central);
 
-    // --- Conexão ---
     QGroupBox *grupoConexao = new QGroupBox("Conexão", central);
     QHBoxLayout *layoutConexao = new QHBoxLayout;
     editIp = new QLineEdit("127.0.0.1", grupoConexao);
@@ -69,7 +66,6 @@ void MainWindow::setupUi()
     layoutConexao->addWidget(btnConectar);
     grupoConexao->setLayout(layoutConexao);
 
-    // --- Lista de máquinas produtoras ---
     QGroupBox *grupoLista = new QGroupBox("Máquinas produtoras", central);
     QVBoxLayout *layoutLista = new QVBoxLayout;
     listaMaquinas = new QListWidget(grupoLista);
@@ -78,7 +74,6 @@ void MainWindow::setupUi()
     layoutLista->addWidget(btnAtualizarLista);
     grupoLista->setLayout(layoutLista);
 
-    // --- Configuração da captura ---
     QGroupBox *grupoCaptura = new QGroupBox("Captura de dados", central);
     QFormLayout *formCaptura = new QFormLayout;
 
@@ -111,7 +106,6 @@ void MainWindow::setupUi()
 
     grupoCaptura->setLayout(formCaptura);
 
-    // --- Gráfico ---
     serie = new QLineSeries();
     chart = new QChart();
     chart->addSeries(serie);
@@ -132,10 +126,8 @@ void MainWindow::setupUi()
     chartView = new QChartView(chart, central);
     chartView->setRenderHint(QPainter::Antialiasing);
 
-    // --- Status ---
     labelStatus = new QLabel("Desconectado", central);
 
-    // --- Layout principal ---
     QHBoxLayout *layoutSuperior = new QHBoxLayout;
     QVBoxLayout *layoutEsquerda = new QVBoxLayout;
     layoutEsquerda->addWidget(grupoConexao);
